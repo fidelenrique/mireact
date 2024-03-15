@@ -1,35 +1,54 @@
-import { useState } from 'react'
+import { Fragment, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
-import './App.css'
+
+const title = "Hola a todos"
+const style = {color: 'white', backgroundColor: 'GrayText'}
+const showTitle = true
+const todos = [
+  'Présenter react',
+  'Présenter le JSX',
+  'Créer des composants'
+]
+
 
 function App() {
-  const [count, setCount] = useState(0)
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+  const handleClick = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    alert("J'ai cliqué sur le titre")
+  }
+
+  return <Fragment>
+    {
+      showTitle ? 
+      <h1 onClick={handleClick} id='title' className='title' style={style}>{title}</h1>
+      : 
+      <p>Demo</p>
+    }
+
+    <Paragraphe color="purple" children={"Premier parragraphe"} hidden={false} />
+    <input autoFocus/>
+    <div style={{width: 50, height: 50, backgroundColor: 'blue'}}/>
+    <Paragraphe color="purple" children={"Seconde parragraphe"} />
+    <ul>
+      {todos.map(todo => (<li key={todo}>{todo}</li>))}
+    </ul>
+  </Fragment> 
+}
+
+function Paragraphe ({color, children, hidden}) {
+  if (hidden) {
+    return null
+  }
+
+  const props = {
+    id: 'monid',
+    className: 'maclass'
+  }
+
+  return <div style={{color: color}}>{children}</div>
 }
 
 export default App
