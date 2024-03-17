@@ -1,54 +1,41 @@
-import { Fragment, useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-
-const title = "Hola a todos"
-const style = {color: 'white', backgroundColor: 'GrayText'}
-const showTitle = true
-const todos = [
-  'Présenter react',
-  'Présenter le JSX',
-  'Créer des composants'
-]
+import { useState } from "react"
 
 
 function App() {
 
-  const handleClick = (e) => {
-    e.preventDefault()
-    e.stopPropagation()
-    alert("J'ai cliqué sur le titre")
-  }
+    const [count, setCount] = useState(0)
+    // exemple 01 
+ //   console.log('render')
 
-  return <Fragment>
-    {
-      showTitle ? 
-      <h1 onClick={handleClick} id='title' className='title' style={style}>{title}</h1>
-      : 
-      <p>Demo</p>
+    const increment = () => {
+//        setCount(count + 1)
+//        setCount(count + 1)
+//        setCount(count + 1)
+        setCount((c) => c + 1)
+        setCount((c) => c + 1)
+        setCount((c) => c + 1)
     }
 
-    <Paragraphe color="purple" children={"Premier parragraphe"} hidden={false} />
-    <input autoFocus/>
-    <div style={{width: 50, height: 50, backgroundColor: 'blue'}}/>
-    <Paragraphe color="purple" children={"Seconde parragraphe"} />
-    <ul>
-      {todos.map(todo => (<li key={todo}>{todo}</li>))}
-    </ul>
-  </Fragment> 
+    // exemple 02
+    const [person, setPerson] = useState({
+        firstname: 'John',
+        lastname: 'Doe',
+        age: 18
+    })
+
+    const incrementAge = () => {
+        //person.age++
+        setPerson({...person, age: person.age + 1} )
+    }
+
+    return <>
+        <p>Compteur : {count}</p>
+        <button onClick={increment}>Incrémenter</button>
+        
+        <p>Age de {person.firstname} : {person.age}</p>
+        <button onClick={incrementAge}>Gagner une année</button>
+    </>
 }
 
-function Paragraphe ({color, children, hidden}) {
-  if (hidden) {
-    return null
-  }
-
-  const props = {
-    id: 'monid',
-    className: 'maclass'
-  }
-
-  return <div style={{color: color}}>{children}</div>
-}
 
 export default App
