@@ -1,41 +1,35 @@
-import { useState } from "react"
+import { Input } from "./components/forms/Input";
+import { Checkbox } from "./components/forms/Checkbox";
 
+const PRODUCTS = [  
+    {category: "Fruits", price: "$1", stocked: true, name: "Apple"},  
+    {category: "Fruits", price: "$1", stocked: true, name: "Dragonfruit"},  
+    {category: "Fruits", price: "$2", stocked: false, name: "Passionfruit"},  
+    {category: "Vegetables", price: "$2", stocked: true, name: "Spinach"},  
+    {category: "Vegetables", price: "$4", stocked: false, name: "Pumpkin"},  
+    {category: "Vegetables", price: "$1", stocked: true, name: "Peas"}  
+];
 
 function App() {
-
-    const [count, setCount] = useState(0)
-    // exemple 01 
- //   console.log('render')
-
-    const increment = () => {
-//        setCount(count + 1)
-//        setCount(count + 1)
-//        setCount(count + 1)
-        setCount((c) => c + 1)
-        setCount((c) => c + 1)
-        setCount((c) => c + 1)
-    }
-
-    // exemple 02
-    const [person, setPerson] = useState({
-        firstname: 'John',
-        lastname: 'Doe',
-        age: 18
-    })
-
-    const incrementAge = () => {
-        //person.age++
-        setPerson({...person, age: person.age + 1} )
-    }
-
-    return <>
-        <p>Compteur : {count}</p>
-        <button onClick={increment}>Incrémenter</button>
-        
-        <p>Age de {person.firstname} : {person.age}</p>
-        <button onClick={incrementAge}>Gagner une année</button>
-    </>
+    return <div className="container my-3">
+        <SearchBar />
+    </div>
 }
 
+function SearchBar () {
+    return <div className="mb-3">
+        <Input
+            value=""
+            onChange={() => null}
+            placeholder="Rechercher..."
+        />
+        <Checkbox 
+            id="stocked"
+            checked={false}
+            onChange={() => null}
+            label="N'afficher que les produits en stock"
+        />
+    </div>
+}
 
 export default App
