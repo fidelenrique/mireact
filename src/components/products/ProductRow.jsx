@@ -1,6 +1,6 @@
 /**
- * 
- * @param product
+ * Ligne produit dans un tableau à 2 colonnes (nom / prix)
+ * @param {{name: string, stocked: boolean, price: string}} product
  * @returns {JSX.Element}
  * @constructor
  */

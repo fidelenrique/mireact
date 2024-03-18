@@ -13,6 +13,7 @@ const PRODUCTS = [
 function App() {
     return <div className="container my-3">
         <SearchBar />
+        <ProductTable products={PRODUCTS} />
     </div>
 }
 
@@ -30,6 +31,21 @@ function SearchBar () {
             label="N'afficher que les produits en stock"
         />
     </div>
+}
+
+function ProductTable ({products}) {
+    return <table className="table">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Prix</th>
+            </tr>
+
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
 }
 
 export default App
