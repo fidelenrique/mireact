@@ -1,8 +1,9 @@
 {
   "name": "mireact",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
+  "proxy": "http://starshopsf7.localhost",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

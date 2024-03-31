@@ -1,43 +1,47 @@
-import { Input } from "./components/forms/Input";
-import { Checkbox } from "./components/forms/Checkbox";
-import { ProductCategoryRow } from "./components/products/ProductCategoryRow";
-import { ProductRow } from "./components/products/ProductRow";
-import { useState } from "react";
-
-const PRODUCTS = [  
-    {category: "Fruits", price: "$1", stocked: true, name: "Apple"},  
-    {category: "Fruits", price: "$1", stocked: true, name: "Dragonfruit"},  
-    {category: "Fruits", price: "$2", stocked: false, name: "Passionfruit"},  
-    {category: "Vegetables", price: "$2", stocked: true, name: "Spinach"},  
-    {category: "Vegetables", price: "$4", stocked: false, name: "Pumpkin"},  
-    {category: "Vegetables", price: "$1", stocked: true, name: "Peas"}  
-];
+import React, { useState, useEffect } from 'react';
+import { Input } from './components/forms/Input';
+import { Checkbox } from './components/forms/Checkbox';
+import { ArticleCategoryRow } from './components/articles/ArticleCategoryRow';
+import { ArticleRow } from './components/articles/ArticleRow';
 
 function App() {
-    const [showStokedOnly, setShowStokedOnly] = useState(false)
-    const [search, setSearch] = useState('')
+  // État pour stocker les données de l'API
+  const [articles, setArticles] = useState([]);
 
-    const visibleProducts = PRODUCTS.filter(product => {
-        if (showStokedOnly && !product.stocked) {
-            return false
-        }
+  // Utilisez useEffect pour effectuer une requête à l'API lorsque le composant est monté
+  useEffect(() => {
+    fetch('http://starshopsf7.localhost/api/articles/')
+      .then(response => response.json())
+      .then(data => setArticles(data))
+      .catch(error => console.error('Error fetching articles:', error));
+  }, []); // Les dépendances vides signifient que cela ne sera exécuté qu'une seule fois lors du montage initial
 
-        if (search && !product.name.includes(search)) {
-            return false
-        }
+  /** init tableau */
+  const [showStokedOnly, setShowStokedOnly] = useState(false)
+  const [search, setSearch] = useState('')
 
-        return true
-    })
+  const visibleArticles = articles.filter(article => {
+      if (showStokedOnly && !article.stocked) {
+          return false
+      }
 
-    return <div className="container my-3">
-        <SearchBar 
-            search={search}
-            onSearchChange={setSearch}
-            showStokedOnly={showStokedOnly} 
-            onStockedOnlyChange={setShowStokedOnly} 
-        />
-        <ProductTable products={visibleProducts} />
-    </div>
+      if (search && !article.name.includes(search)) {
+          return false
+      }
+
+      return true
+  })
+  /** fin tableau */
+
+  return <div className="container my-3">
+  <SearchBar 
+      search={search}
+      onSearchChange={setSearch}
+      showStokedOnly={showStokedOnly} 
+      onStockedOnlyChange={setShowStokedOnly} 
+  />
+  <ArticleTable articles={visibleArticles} />
+  </div>
 }
 
 function SearchBar ({showStokedOnly, onStockedOnlyChange, search, onSearchChange}) {
@@ -56,16 +60,16 @@ function SearchBar ({showStokedOnly, onStockedOnlyChange, search, onSearchChange
     </div>
 }
 
-function ProductTable ({products}) {
+function ArticleTable ({articles}) {
     const rows = []
     let lastCategory = null
 
-    for (let product of products) {
-        if (product.category !== lastCategory) {
-            rows.push(<ProductCategoryRow key={product.category} name={product.category} />)
+    for (let article of articles) {
+        if (article.category !== lastCategory) {
+            rows.push(<ArticleCategoryRow key={article.category} name={article.category} />)
         }
-        lastCategory = product.category
-        rows.push(<ProductRow product={product} key={product.name} />)
+        lastCategory = article.category
+        rows.push(<ArticleRow article={article} key={article.name} />)
     }
 
     return <table className="table">
@@ -82,4 +86,4 @@ function ProductTable ({products}) {
     </table>
 }
 
-export default App
+export default App;
